@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Workflow Companion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --accent: #0d6efd;
+            --accent-hover: #0b5ed7;
+            --success: #198754;
+            --warning: #fd7e14;
+            --border: #dee2e6;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode {
+            --bg-primary: #1a1d23;
+            --bg-secondary: #252a31;
+            --bg-tertiary: #2f353e;
+            --text-primary: #f8f9fa;
+            --text-secondary: #adb5bd;
+            --border: #495057;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 300px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s;
+        }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-header h1 {
+            font-size: 22px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .sidebar-header p {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .search-container {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 10px 36px 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .project-section {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .project-section h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .project-selector {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 14px;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            background: var(--accent);
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .btn-small {
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+
+        .nav-section {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 12px;
+        }
+
+        .nav-category {
+            margin-bottom: 24px;
+        }
+
+        .nav-category h4 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            padding: 0 12px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .nav-item {
+            padding: 10px 12px;
+            margin: 2px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .nav-item.active {
+            background: var(--accent);
+            color: white;
+            font-weight: 500;
+        }
+
+        .progress-badge {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background: var(--bg-tertiary);
+            font-weight: 600;
+        }
+
+        .nav-item.active .progress-badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .sidebar-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 48px;
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            margin-bottom: 32px;
+        }
+
+        .section-header h2 {
+            font-size: 36px;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .progress-summary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+
+        .progress-summary h3 {
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+
+        .progress-bar-container {
+            background: rgba(255, 255, 255, 0.2);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: white;
+            height: 100%;
+            transition: width 0.3s;
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            margin-top: 8px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Flowchart */
+        .flowchart {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            margin: 32px 0;
+        }
+
+        .flowchart h3 {
+            font-size: 24px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            margin: 24px 0;
+            position: relative;
+        }
+
+        .flow-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 50px;
+            width: 2px;
+            height: calc(100% + 24px);
+            background: var(--border);
+        }
+
+        .flow-number {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 16px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .flow-content {
+            flex: 1;
+            padding-top: 6px;
+        }
+
+        .flow-content h4 {
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+
+        .flow-content p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Checklist Groups */
+        .checklist-group {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .checklist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .checklist-header h3 {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .expand-all-btn {
+            padding: 6px 12px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .expand-all-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .checklist-item {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin: 12px 0;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .checklist-item:hover {
+            border-color: var(--accent);
+        }
+
+        .item-header {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-wrapper {
+            margin-right: 12px;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--success);
+        }
+
+        .item-title-wrapper {
+            flex: 1;
+        }
+
+        .item-title {
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .item-completed .item-title {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .expand-icon {
+            margin-left: 12px;
+            color: var(--text-secondary);
+            transition: transform 0.3s;
+            font-size: 18px;
+        }
+
+        .item-expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .item-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .item-expanded .item-details {
+            max-height: 2000px;
+        }
+
+        .item-content {
+            padding: 0 16px 16px 48px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .item-content h4 {
+            color: var(--text-primary);
+            font-size: 16px;
+            margin: 16px 0 8px 0;
+        }
+
+        .item-content ul {
+            margin: 8px 0 8px 20px;
+        }
+
+        .item-content li {
+            margin: 4px 0;
+        }
+
+        .item-content code {
+            background: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .item-content pre {
+            background: var(--bg-tertiary);
+            padding: 12px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+
+        /* Info boxes */
+        .info-box {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent);
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        .info-box.warning {
+            border-left-color: var(--warning);
+        }
+
+        .info-box.success {
+            border-left-color: var(--success);
+        }
+
+        .info-box h4 {
+            font-size: 14px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-primary);
+            padding: 32px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px var(--shadow);
+        }
+
+        .modal-content h3 {
+            font-size: 22px;
+            margin-bottom: 16px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        /* Print styles */
+        @media print {
+            .sidebar, .theme-toggle, .btn-group {
+                display: none !important;
+            }
+            .main-content {
+                padding: 20px;
+            }
+            .checklist-item {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -300px;
+                z-index: 100;
+                height: 100vh;
+            }
+            .sidebar.mobile-open {
+                transform: translateX(300px);
+            }
+            .main-content {
+                padding: 24px 16px;
+            }
+            .section-header h2 {
+                font-size: 28px;
+            }
+        }
+
+        /* Loading state */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1>Workflow Companion</h1>
+                <p>Track your creative projects</p>
+            </div>
+
+            <div class="search-container">
+                <input type="text" class="search-bar" id="searchBar" placeholder="Search workflows...">
+            </div>
+
+            <div class="project-section">
+                <h3>Active Project</h3>
+                <select class="project-selector" id="projectSelector">
+                    <option value="">Select a project...</option>
+                </select>
+                <div class="btn-group">
+                    <button class="btn btn-small" onclick="newProject()">+ New</button>
+                    <button class="btn btn-secondary btn-small" onclick="deleteProject()">Delete</button>
+                </div>
+                <div class="btn-group" style="margin-top: 12px;">
+                    <button class="btn btn-secondary btn-small" onclick="exportData()">Export</button>
+                    <button class="btn btn-secondary btn-small" onclick="importData()">Import</button>
+                </div>
+            </div>
+
+            <nav class="nav-section" id="navigation">
+                <!-- Navigation will be populated by JS -->
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="theme-toggle" onclick="toggleTheme()">
+                    <span>🌙 Dark Mode</span>
+                    <span id="themeIcon">OFF</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <div class="content-wrapper">
+                <!-- Content sections will be populated by JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- New Project Modal -->
+    <div class="modal" id="newProjectModal">
+        <div class="modal-content">
+            <h3>Create New Project</h3>
+            <input type="text" id="projectNameInput" placeholder="Project name...">
+            <select id="projectTypeSelect" class="project-selector">
+                <option value="fontforge">FontForge Font Creation</option>
+                <option value="canvas">Canvas Assignment</option>
+            </select>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn" onclick="createProject()">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="importFileInput" style="display: none;" accept=".json">
+
+    <script>
+        // ====================================
+        // STORAGE MANAGER (Ready for cloud sync)
+        // ====================================
+        class StorageManager {
+            constructor() {
+                this.storageKey = 'workflowCompanion';
+            }
+
+            // Get all data
+            getData() {
+                const data = localStorage.getItem(this.storageKey);
+                return data ? JSON.parse(data) : this.getDefaultData();
+            }
+
+            // Save all data
+            saveData(data) {
+                localStorage.setItem(this.storageKey, JSON.stringify(data));
+            }
+
+            // Default data structure
+            getDefaultData() {
+                return {
+                    projects: [],
+                    currentProjectId: null,
+                    theme: 'light',
+                    version: '1.0.0'
+                };
+            }
+
+            // Export data to JSON file
+            exportToFile() {
+                const data = this.getData();
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `workflow-companion-backup-${Date.now()}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+
+            // Import data from JSON file
+            importFromFile(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        try {
+                            const data = JSON.parse(e.target.result);
+                            this.saveData(data);
+                            resolve(data);
+                        } catch (error) {
+                            reject(error);
+                        }
+                    };
+                    reader.readAsText(file);
+                });
+            }
+        }
+
+        // ====================================
+        // WORKFLOW TEMPLATES
+        // ====================================
+        const workflowTemplates = {
+            fontforge: {
+                name: 'FontForge Font Creation',
+                sections: [
+                    {
+                        id: 'overview',
+                        title: 'Project Overview',
+                        content: {
+                            flowchart: [
+                                { step: 1, title: 'Design in Illustrator', desc: 'Create your letter forms as vectors' },
+                                { step: 2, title: 'Export as SVG', desc: 'Prepare files for FontForge import' },
+                                { step: 3, title: 'Import to FontForge', desc: 'Bring your letters into the font editor' },
+                                { step: 4, title: 'Size & Align', desc: 'Make letters consistent' },
+                                { step: 5, title: 'Add Spacing', desc: 'Set proper letter spacing' },
+                                { step: 6, title: 'Generate Font', desc: 'Create final font file' }
+                            ]
+                        }
+                    },
+                    {
+                        id: 'illustrator',
+                        title: 'Illustrator Setup',
+                        items: [
+                            {
+                                title: 'Create outlined letterforms',
+                                details: 'Make sure your letters are vector shapes, not editable text. Go to Type > Create Outlines to convert text to shapes.'
+                            },
+                            {
+                                title: 'Expand any strokes',
+                                details: 'Select all letters and go to Object > Expand Appearance. This converts strokes to filled shapes.'
+                            },
+                            {
+                                title: 'Set up individual artboards',
+                                details: 'Create one artboard per letter. Use the Artboards panel (Window > Artboards) to add new artboards of equal size (e.g., 1000x1000px).'
+                            },
+                            {
+                                title: 'Name artboards clearly',
+                                details: 'Double-click each artboard name and rename it to match the letter (A, B, C, a, b, c, etc.). These names become your SVG filenames.'
+                            },
+                            {
+                                title: 'Align letters to baseline',
+                                details: 'All letters should sit on the same baseline. Create a horizontal guide and align the bottom of all letters to it using the Align panel.'
+                            },
+                            {
+                                title: 'Batch export as SVG',
+                                details: 'Go to File > Export > Export for Screens. Choose SVG format, select all artboards, and export. Each letter becomes a separate SVG file.'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'fontforge',
+                        title: 'FontForge Import',
+                        items: [
+                            {
+                                title: 'Open FontForge and create new font',
+                                details: 'Launch FontForge, go to File > New. You\'ll see a grid of empty character slots representing letters, numbers, and symbols.'
+                            },
+                            {
+                                title: 'Import uppercase letters (A-Z)',
+                                details: 'Double-click the "A" slot. Go to File > Import and select your A.svg file. Repeat for each uppercase letter B through Z.'
+                            },
+                            {
+                                title: 'Import lowercase letters (a-z)',
+                                details: 'Scroll down to find lowercase slots. Double-click "a" and import a.svg. Continue for b through z.'
+                            },
+                            {
+                                title: 'Import numbers (0-9)',
+                                details: 'Find the number slots and import your number designs. If you haven\'t created numbers yet, you can add them later.'
+                            },
+                            {
+                                title: 'Import basic punctuation',
+                                details: 'Import essential punctuation: period (.), comma (,), exclamation (!), question (?), apostrophe (\'), quotes ("), hyphen (-), and parentheses ( ).'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'sizing',
+                        title: 'Size & Alignment',
+                        items: [
+                            {
+                                title: 'Understand the guidelines',
+                                details: 'FontForge shows horizontal lines: Ascent (top of tall letters), Cap Height (top of capitals), X-Height (top of lowercase), Baseline (where all letters sit), and Descent (bottom of hanging letters).'
+                            },
+                            {
+                                title: 'Choose reference letters',
+                                details: 'Pick your best uppercase (like "H") and lowercase (like "n") as size references. All other letters will match these.'
+                            },
+                            {
+                                title: 'Scale letters to match',
+                                details: 'For each letter that\'s too big or small: select it, go to Element > Transformations > Transform, choose Scale, and enter a percentage (80-120%). Check "Scale Uniformly".'
+                            },
+                            {
+                                title: 'Reposition to baseline',
+                                details: 'After scaling, letters might move off the baseline. Use Element > Transformations > Transform > Move with negative Y values to move down, positive to move up.'
+                            },
+                            {
+                                title: 'Test in Metrics Window',
+                                details: 'Go to Metrics > New Metrics Window. Type test words like "HAMBURGER" or "handgloves" to see letters side-by-side and check consistency.'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'spacing',
+                        title: 'Letter Spacing',
+                        items: [
+                            {
+                                title: 'Set side bearings',
+                                details: 'Open each glyph. The pink/red vertical lines are side bearings (space before/after). Drag them or use Metrics > Set Width to adjust spacing.'
+                            },
+                            {
+                                title: 'Test common letter pairs',
+                                details: 'In the Metrics Window, type pairs that often have spacing issues: AV, To, Wa, etc. Adjust individual spacing as needed.'
+                            },
+                            {
+                                title: 'Check word spacing',
+                                details: 'Type full words and sentences to see how spacing feels in context. Adjust until the rhythm feels balanced.'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'validation',
+                        title: 'Validation & Testing',
+                        items: [
+                            {
+                                title: 'Run validation',
+                                details: 'Go to Element > Validation > Validate. This checks for technical issues. Most warnings are safe to ignore for personal fonts.'
+                            },
+                            {
+                                title: 'Fix critical errors only',
+                                details: 'Focus on: Open/Unclosed Paths (Element > Close Path), Wrong Direction (Element > Correct Direction), and Self-Intersecting Paths (Element > Overlap > Remove Overlap).'
+                            },
+                            {
+                                title: 'Set font information',
+                                details: 'Go to Element > Font Info. Under PS Names, enter your Fontname and Family Name. This is how your font appears in applications.'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'generate',
+                        title: 'Generate Font File',
+                        items: [
+                            {
+                                title: 'Generate the font',
+                                details: 'Go to File > Generate Fonts. Choose TrueType (.ttf) or OpenType (.otf) format. Select where to save and click Generate. If you get warnings, you can usually click Generate anyway.'
+                            },
+                            {
+                                title: 'Install on your system',
+                                details: 'Mac: Double-click the font file and click Install Font. Windows: Right-click and select Install. The font is now available in all applications.'
+                            },
+                            {
+                                title: 'Test in real applications',
+                                details: 'Open a text editor or design program. Find your font in the font menu and type with it. Check for any spacing issues or visual problems.'
+                            },
+                            {
+                                title: 'Iterate and refine',
+                                details: 'Note any issues, reopen your .sfd file in FontForge, make adjustments, and regenerate. Font design is an iterative process!'
+                            }
+                        ]
+                    }
+                ]
+            },
+            canvas: {
+                name: 'Canvas Assignment',
+                sections: [
+                    {
+                        id: 'overview',
+                        title: 'Assignment Overview',
+                        content: {
+                            flowchart: [
+                                { step: 1, title: 'Read Brief', desc: 'Understand requirements and deliverables' },
+                                { step: 2, title: 'Plan Approach', desc: 'Break down tasks and timeline' },
+                                { step: 3, title: 'Execute', desc: 'Complete the work' },
+                                { step: 4, title: 'Review', desc: 'Check against rubric' },
+                                { step: 5, title: 'Submit', desc: 'Upload to Canvas on time' }
+                            ]
+                        }
+                    },
+                    {
+                        id: 'planning',
+                        title: 'Planning Phase',
+                        items: [
+                            {
+                                title: 'Read the assignment brief thoroughly',
+                                details: 'Read the entire assignment description. Note due dates, deliverables, and any special requirements like file formats or naming conventions.'
+                            },
+                            {
+                                title: 'Identify key requirements',
+                                details: 'List out what you need to deliver. Check for word counts, number of images, specific formats (PDF, JPG, etc.), and submission methods.'
+                            },
+                            {
+                                title: 'Check the rubric',
+                                details: 'Look at how you\'ll be graded. Note which criteria have the most weight. Focus your effort accordingly.'
+                            },
+                            {
+                                title: 'Break into subtasks',
+                                details: 'Divide the assignment into smaller, manageable tasks. Estimate time for each. Add them to this checklist as custom items if needed.'
+                            },
+                            {
+                                title: 'Set personal deadlines',
+                                details: 'Work backwards from the due date. Set milestones: research done by X, first draft by Y, final review by Z. Build in buffer time.'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'execution',
+                        title: 'Execution Phase',
+                        items: [
+                            {
+                                title: 'Gather resources',
+                                details: 'Collect any needed materials: readings, reference images, software, templates. Check Canvas for provided files or links.'
+                            },
+                            {
+                                title: 'Complete the work',
+                                details: 'Follow your plan and work through each subtask. Take breaks. Save your work frequently in multiple locations.'
+                            },
+                            {
+                                title: 'Document your process',
+                                details: 'If required, capture screenshots, save iterations, or keep notes about your decisions. This helps with process books or presentations.'
+                            }
+                        ]
+                    },
+                    {
+                        id: 'review',
+                        title: 'Review & Submission',
+                        items: [
+                            {
+                                title: 'Self-check against rubric',
+                                details: 'Go through each rubric criterion. Does your work meet or exceed expectations? Revise anything that falls short.'
+                            },
+                            {
+                                title: 'Check file requirements',
+                                details: 'Verify: correct file format, proper naming convention, file size limits, all required files included.'
+                            },
+                            {
+                                title: 'Proofread everything',
+                                details: 'Check spelling, grammar, image quality, and formatting. Fresh eyes help—take a break before final review.'
+                            },
+                            {
+                                title: 'Submit to Canvas',
+                                details: 'Upload files through the correct assignment link. Verify the upload succeeded. Check for confirmation email or Canvas notification.'
+                            },
+                            {
+                                title: 'Backup your work',
+                                details: 'Keep copies of everything you submitted. Save to cloud storage and local backup. You might need it for portfolio or future reference.'
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // ====================================
+        // APPLICATION STATE
+        // ====================================
+        class App {
+            constructor() {
+                this.storage = new StorageManager();
+                this.data = this.storage.getData();
+                this.currentSection = 'overview';
+                this.init();
+            }
+
+            init() {
+                this.applyTheme();
+                this.populateProjects();
+                this.renderNavigation();
+                this.renderContent();
+                this.attachEventListeners();
+                
+                // Load current project if exists
+                if (this.data.currentProjectId) {
+                    const project = this.getProject(this.data.currentProjectId);
+                    if (project) {
+                        document.getElementById('projectSelector').value = this.data.currentProjectId;
+                        this.loadProject(this.data.currentProjectId);
+                    }
+                }
+            }
+
+            attachEventListeners() {
+                // Search functionality
+                document.getElementById('searchBar').addEventListener('input', (e) => {
+                    this.search(e.target.value);
+                });
+
+                // Project selector
+                document.getElementById('projectSelector').addEventListener('change', (e) => {
+                    if (e.target.value) {
+                        this.loadProject(e.target.value);
+                    }
+                });
+
+                // Import file input
+                document.getElementById('importFileInput').addEventListener('change', (e) => {
+                    if (e.target.files[0]) {
+                        this.handleImport(e.target.files[0]);
+                    }
+                });
+            }
+
+            // Project Management
+            getProject(id) {
+                return this.data.projects.find(p => p.id === id);
+            }
+
+            getCurrentProject() {
+                if (!this.data.currentProjectId) return null;
+                return this.getProject(this.data.currentProjectId);
+            }
+
+            createNewProject(name, type) {
+                const project = {
+                    id: Date.now().toString(),
+                    name: name,
+                    type: type,
+                    created: new Date().toISOString(),
+                    progress: {},
+                    template: workflowTemplates[type]
+                };
+
+                // Initialize progress tracking
+                project.template.sections.forEach(section => {
+                    if (section.items) {
+                        section.items.forEach((item, index) => {
+                            project.progress[`${section.id}-${index}`] = false;
+                        });
+                    }
+                });
+
+                this.data.projects.push(project);
+                this.data.currentProjectId = project.id;
+                this.storage.saveData(this.data);
+                this.populateProjects();
+                this.loadProject(project.id);
+            }
+
+            deleteCurrentProject() {
+                if (!this.data.currentProjectId) return;
+                
+                if (confirm('Are you sure you want to delete this project? This cannot be undone.')) {
+                    this.data.projects = this.data.projects.filter(p => p.id !== this.data.currentProjectId);
+                    this.data.currentProjectId = null;
+                    this.storage.saveData(this.data);
+                    this.populateProjects();
+                    this.renderContent();
+                }
+            }
+
+            loadProject(id) {
+                this.data.currentProjectId = id;
+                this.storage.saveData(this.data);
+                this.renderNavigation();
+                this.renderContent();
+            }
+
+            populateProjects() {
+                const selector = document.getElementById('projectSelector');
+                selector.innerHTML = '<option value="">Select a project...</option>';
+                
+                this.data.projects.forEach(project => {
+                    const option = document.createElement('option');
+                    option.value = project.id;
+                    option.textContent = `${project.name} (${project.template.name})`;
+                    selector.appendChild(option);
+                });
+
+                if (this.data.currentProjectId) {
+                    selector.value = this.data.currentProjectId;
+                }
+            }
+
+            // Navigation
+            renderNavigation() {
+                const project = this.getCurrentProject();
+                const nav = document.getElementById('navigation');
+
+                if (!project) {
+                    nav.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-secondary);">Create or select a project to begin</div>';
+                    return;
+                }
+
+                let html = '<div class="nav-category">';
+                html += '<h4>Workflow Steps</h4>';
+
+                project.template.sections.forEach(section => {
+                    const progress = this.calculateSectionProgress(project, section);
+                    const isActive = this.currentSection === section.id;
+                    
+                    html += `
+                        <div class="nav-item ${isActive ? 'active' : ''}" onclick="app.navigateTo('${section.id}')">
+                            <span>${section.title}</span>
+                            <span class="progress-badge">${progress}%</span>
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+                nav.innerHTML = html;
+            }
+
+            navigateTo(sectionId) {
+                this.currentSection = sectionId;
+                this.renderNavigation();
+                this.renderContent();
+            }
+
+            calculateSectionProgress(project, section) {
+                if (!section.items) return 100;
+                
+                let completed = 0;
+                section.items.forEach((item, index) => {
+                    const key = `${section.id}-${index}`;
+                    if (project.progress[key]) completed++;
+                });
+
+                return Math.round((completed / section.items.length) * 100);
+            }
+
+            calculateTotalProgress(project) {
+                if (!project) return 0;
+                
+                let totalItems = 0;
+                let completedItems = 0;
+
+                project.template.sections.forEach(section => {
+                    if (section.items) {
+                        totalItems += section.items.length;
+                        section.items.forEach((item, index) => {
+                            if (project.progress[`${section.id}-${index}`]) {
+                                completedItems++;
+                            }
+                        });
+                    }
+                });
+
+                return totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+            }
+
+            // Content Rendering
+            renderContent() {
+                const project = this.getCurrentProject();
+                const wrapper = document.querySelector('.content-wrapper');
+
+                if (!project) {
+                    wrapper.innerHTML = `
+                        <div class="section-header">
+                            <h2>Welcome to Workflow Companion</h2>
+                            <p>Create a new project or select an existing one to get started.</p>
+                        </div>
+                        <div class="info-box">
+                            <h4>Getting Started</h4>
+                            <p>Click "+ New" in the sidebar to create your first project. Choose between FontForge font creation or Canvas assignment tracking.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const section = project.template.sections.find(s => s.id === this.currentSection);
+                if (!section) return;
+
+                let html = `<div class="content-section active">`;
+                
+                // Progress Summary
+                const totalProgress = this.calculateTotalProgress(project);
+                html += `
+                    <div class="progress-summary">
+                        <h3>${project.name}</h3>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${totalProgress}%"></div>
+                        </div>
+                        <div class="progress-text">${totalProgress}% Complete</div>
+                    </div>
+                `;
+
+                // Section Header
+                html += `
+                    <div class="section-header">
+                        <h2>${section.title}</h2>
+                    </div>
+                `;
+
+                // Flowchart (if exists)
+                if (section.content && section.content.flowchart) {
+                    html += '<div class="flowchart"><h3>Workflow Overview</h3>';
+                    section.content.flowchart.forEach(step => {
+                        html += `
+                            <div class="flow-step">
+                                <div class="flow-number">${step.step}</div>
+                                <div class="flow-content">
+                                    <h4>${step.title}</h4>
+                                    <p>${step.desc}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                }
+
+                // Checklist Items
+                if (section.items) {
+                    html += `
+                        <div class="checklist-group">
+                            <div class="checklist-header">
+                                <h3>Checklist</h3>
+                                <button class="expand-all-btn" onclick="app.expandAll('${section.id}')">Expand All</button>
+                            </div>
+                    `;
+
+                    section.items.forEach((item, index) => {
+                        const key = `${section.id}-${index}`;
+                        const isCompleted = project.progress[key] || false;
+                        const itemId = `item-${key}`;
+
+                        html += `
+                            <div class="checklist-item ${isCompleted ? 'item-completed' : ''}" id="${itemId}">
+                                <div class="item-header" onclick="app.toggleItem('${itemId}')">
+                                    <div class="checkbox-wrapper">
+                                        <input type="checkbox" class="checkbox" ${isCompleted ? 'checked' : ''} 
+                                            onchange="app.toggleProgress('${key}')" onclick="event.stopPropagation()">
+                                    </div>
+                                    <div class="item-title-wrapper">
+                                        <div class="item-title">${item.title}</div>
+                                    </div>
+                                    <div class="expand-icon">▼</div>
+                                </div>
+                                <div class="item-details">
+                                    <div class="item-content">
+                                        <p>${item.details}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    html += '</div>';
+                }
+
+                html += '</div>';
+                wrapper.innerHTML = html;
+            }
+
+            toggleItem(itemId) {
+                const item = document.getElementById(itemId);
+                if (item) {
+                    item.classList.toggle('item-expanded');
+                }
+            }
+
+            expandAll(sectionId) {
+                const items = document.querySelectorAll('.checklist-item');
+                const allExpanded = Array.from(items).every(item => item.classList.contains('item-expanded'));
+                
+                items.forEach(item => {
+                    if (allExpanded) {
+                        item.classList.remove('item-expanded');
+                    } else {
+                        item.classList.add('item-expanded');
+                    }
+                });
+            }
+
+            toggleProgress(key) {
+                const project = this.getCurrentProject();
+                if (!project) return;
+
+                project.progress[key] = !project.progress[key];
+                this.storage.saveData(this.data);
+                this.renderNavigation();
+                this.renderContent();
+            }
+
+            // Search
+            search(query) {
+                if (!query) {
+                    this.renderContent();
+                    return;
+                }
+
+                // Simple search implementation
+                const project = this.getCurrentProject();
+                if (!project) return;
+
+                const results = [];
+                project.template.sections.forEach(section => {
+                    if (section.items) {
+                        section.items.forEach((item, index) => {
+                            if (item.title.toLowerCase().includes(query.toLowerCase()) ||
+                                item.details.toLowerCase().includes(query.toLowerCase())) {
+                                results.push({ section, item, index });
+                            }
+                        });
+                    }
+                });
+
+                // Render search results (simplified for now)
+                console.log('Search results:', results);
+            }
+
+            // Theme
+            applyTheme() {
+                if (this.data.theme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                    document.getElementById('themeIcon').textContent = 'ON';
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    document.getElementById('themeIcon').textContent = 'OFF';
+                }
+            }
+
+            toggleTheme() {
+                this.data.theme = this.data.theme === 'light' ? 'dark' : 'light';
+                this.storage.saveData(this.data);
+                this.applyTheme();
+            }
+
+            // Export/Import
+            exportData() {
+                this.storage.exportToFile();
+            }
+
+            async handleImport(file) {
+                try {
+                    const data = await this.storage.importFromFile(file);
+                    this.data = data;
+                    this.init();
+                    alert('Data imported successfully!');
+                } catch (error) {
+                    alert('Error importing data. Please check the file format.');
+                    console.error(error);
+                }
+            }
+        }
+
+        // ====================================
+        // GLOBAL FUNCTIONS
+        // ====================================
+        let app;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            app = new App();
+        });
+
+        function newProject() {
+            document.getElementById('newProjectModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('newProjectModal').classList.remove('active');
+        }
+
+        function createProject() {
+            const name = document.getElementById('projectNameInput').value.trim();
+            const type = document.getElementById('projectTypeSelect').value;
+
+            if (!name) {
+                alert('Please enter a project name');
+                return;
+            }
+
+            app.createNewProject(name, type);
+            closeModal();
+            document.getElementById('projectNameInput').value = '';
+        }
+
+        function deleteProject() {
+            app.deleteCurrentProject();
+        }
+
+        function exportData() {
+            app.exportData();
+        }
+
+        function importData() {
+            document.getElementById('importFileInput').click();
+        }
+
+        function toggleTheme() {
+            app.toggleTheme();
+        }
+
+        // Close modal on outside click
+        document.addEventListener('click', (e) => {
+            const modal = document.getElementById('newProjectModal');
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K for search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('searchBar').focus();
+            }
+            
+            // Escape to close modal
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
