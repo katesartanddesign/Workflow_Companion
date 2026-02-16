@@ -1,0 +1,703 @@
+# Workflow Companion - Process Book
+
+**Project Type:** Interactive Web Application  
+**Timeline:** January 5, 2026  
+**Designer/Developer:** [YOUR NAME]  
+**AI Collaborator:** Claude (Anthropic)  
+**Technical Consultant:** [PROGRAMMER PARTNER NAME]
+
+---
+
+## Collaboration Statement
+
+**This project was created through iterative collaboration between myself and Claude AI.**
+
+**My Role:** Problem identification, creative vision, all design decisions, feature ideation, requirements specification, testing and validation, strategic direction.
+
+**Claude's Role:** Technical explanation, code implementation based on my specifications, information compilation and organization, documentation creation, **and articulation of my decision-making process in the interpretation boxes throughout this document.**
+
+**Why This Works for Me:** As someone with AuDHD, conversational development allows me to brainstorm iteratively, ask questions immediately, focus on creative vision while getting technical support, and work at my own pace with documented context.
+
+**Important Note About This Document:**
+
+**The interpretation boxes (📦) were written by Claude AI, not by me.** While I made all the decisions described in those boxes, I don't yet have the experience or cognitive framework to articulate WHY I made those choices in the moment. My brain moves quickly through decisions instinctively, and deliberately slowing down to analyze my own thinking process can be literally painful.
+
+Claude helped me see and understand my own decision-making patterns by reflecting them back to me with frameworks and vocabulary I didn't have. The interpretations are Claude's analysis of what my choices demonstrate - I recognized myself in those explanations, which helped me learn to see my own strategic thinking.
+
+This is part of why AI collaboration works so well for me: I can make good instinctive decisions, but struggle to explain the reasoning in real-time. Claude helps bridge that gap.
+
+**Note on Quoted Text:** Any typos or informal language in the verbatim conversation quotes are from the original dialogue and were deliberately left unchanged to preserve authenticity.
+
+---
+
+## Part 1: The Journey to Reference Documents
+
+### The Beginning
+
+The project started with a simple question about building my Behance portfolio as a first-semester design student. I mentioned I was working on font creation in FontForge but struggling with the technical workflow. This led to a practical problem-solving conversation about font creation tools.
+
+### The Technical Challenge
+
+I had already created letterforms in Illustrator and needed to turn them into a functioning font using FontForge. The conversation became hands-on troubleshooting:
+
+- Getting FontForge installed on my Mac (security issues)
+- Understanding how to export SVGs from Illustrator
+- Learning FontForge's import process
+- Solving technical problems like lowercase letters being misaligned
+
+Through this dialogue, Claude explained technical concepts as I needed them: font metrics, baseline alignment, validation errors, grid fitting, and more. I asked questions conversationally and got immediate answers that helped me keep moving forward.
+
+### The Pattern Recognition
+
+As I worked through the FontForge process, I realized I was:
+- Constantly forgetting which steps I'd completed
+- Jumping between scattered documentation sources
+- Getting confused by technical jargon
+- Losing track of where I was in the overall workflow
+
+The information existed, but it wasn't organized in a way that matched how I actually work - especially with AuDHD, where executive function and working memory can be challenging.
+
+---
+
+## Part 2: The Pivot - Creating Reference Documents
+
+### The Request That Changed Everything
+
+**Me:**
+> "Could you put together a simple, step by step instruction checklist from having the letters drawn in ai on one artboard to one artboard per letter to batch exporting as svg please. Include a side box that has common errors and how to fix them before exporting, like when my lower case letters were top justified.
+>
+> Create another step by step instruction checklist from individual svg to import into fontforge to tweaking the letters and creating the font file."
+
+---
+
+**📦 INTERPRETATION BOX - WHAT THIS MOMENT MEANT:**
+
+This request marked the transition from "help me with my font" to "help me create reusable resources." I recognized that:
+
+1. **The problem was bigger than one font** - I'd need this process again
+2. **Documentation should be actionable** - checklists, not just tutorials  
+3. **Common errors should be addressed proactively** - I'd already encountered them
+4. **The workflow needed structure** - from Illustrator through FontForge to final font
+
+This showed strategic thinking: instead of just solving the immediate problem, I was creating infrastructure for future work.
+
+**My key insight:** If I'm confused, other students probably are too. Make it reusable.
+
+---
+
+### Claude's Response
+
+Claude created two comprehensive markdown documents:
+1. "Illustrator to SVG Export Checklist" - with common errors sidebar
+2. "FontForge Import & Font Creation Checklist" - complete workflow with troubleshooting
+
+### My Follow-Up Questions
+
+**Me:**
+> "How do I make the letters the same size? How do I know which line on the preview is which?"
+
+**Claude's Response:**
+Claude provided detailed explanation of FontForge's guidelines (ascent, cap height, x-height, baseline, descent) and methods for scaling and aligning letters consistently.
+
+**Me:**
+> "Yes. Could you put this all in a document like the ones you previously made"
+
+---
+
+**📦 INTERPRETATION BOX - PATTERN EMERGING:**
+
+I was building a comprehensive reference library, document by document. Each time I encountered confusion, I asked for structured documentation. This showed:
+
+- **Systematic thinking:** Building a complete knowledge base, not just solving one-off problems
+- **Learning style awareness:** I needed written references I could return to, not just verbal explanations
+- **Future planning:** These documents would serve me across multiple projects
+
+The AuDHD connection: I needed external memory systems because relying on working memory alone wasn't sufficient.
+
+---
+
+### Additional Documentation Requests
+
+**Me:**
+> "Can you put together a primer that explains the validation errors?"
+
+Claude created a comprehensive validation errors guide explaining each error type, severity, and how to fix them.
+
+**Me:**
+> "What is a bluevalue entry"
+
+**Me:**
+> "What is grid fitting"
+
+---
+
+**📦 INTERPRETATION BOX - JUST-IN-TIME LEARNING:**
+
+These questions showed my learning process:
+- Encountered unfamiliar terms during font creation
+- Asked for clarification immediately
+- Got explanations in context when I needed them
+- Built understanding incrementally rather than trying to learn everything upfront
+
+This is ideal for AuDHD: information delivered exactly when needed, in manageable chunks, without cognitive overload.
+
+---
+
+## Part 3: The Vision Emerges - Interactive Tool Concept
+
+### The Breakthrough Idea
+
+**Me:**
+> "I'm not sure what words to use, but I would like to explore putting these reference documents into one file that is searchable as well as has an interactive element to the checklist. Kind of like a flow chart. Starting with the basics things can be checked off as they are confirmed completed and then the detailed instructions start where the checks end."
+
+---
+
+**📦 INTERPRETATION BOX - CREATIVE VISION:**
+
+This was the pivotal moment where scattered documentation became a product vision. I saw the potential for:
+
+**Progressive Disclosure:** Start simple (checklist), expand to details (instructions) - matching how I actually work
+**Interactive Elements:** Not static docs, but tools that respond and remember
+**Visual Overview:** Flowcharts to see the big picture before diving into details
+**Progress Tracking:** Check off completed tasks to reduce cognitive load
+**All-in-One:** Single file instead of juggling multiple documents
+
+This was UX thinking: design a tool that accommodates how my brain works, not how traditional documentation assumes brains work.
+
+**Why this matters for AuDHD:**
+- **Executive function support:** Don't have to remember what's done
+- **Reduced overwhelm:** See only what I need, when I need it
+- **Working memory accommodation:** System remembers for me
+- **Visual thinking:** Flowcharts match how I process information
+
+---
+
+### Claude's Response
+
+**Claude:**
+> "I love this idea! You're describing an interactive, all-in-one reference tool with progressive disclosure - where you start with high-level checkboxes and can expand into detailed instructions only when you need them.
+>
+> Let me create this as a single interactive HTML artifact with:
+> - Searchable content (search bar to find topics instantly)
+> - Collapsible sections (click to expand/collapse detailed instructions)
+> - Interactive checklists (check off tasks as you complete them)
+> - Flow structure (guides you from basics → details)
+> - Navigation menu (jump to any section quickly)
+> - Progress tracking (see what you've completed)
+>
+> This will work like an app - one page with everything organized and interactive. You'll be able to save it as an HTML file and open it anytime in your browser, even offline.
+>
+> Does this sound like what you're envisioning? Should I also include:
+> - A visual flowchart at the beginning showing the overall process?
+> - The ability to save your progress (checkboxes stay checked when you come back)?
+> - Dark mode option?
+> - Printable checklist view?"
+
+**Me:**
+> "Yes to all of that. Also the ability to save progress and start another font. Why am html file instead of an app?"
+
+---
+
+**📦 INTERPRETATION BOX - TECHNICAL DECISION-MAKING:**
+
+My question "Why am html file instead of an app?" showed:
+
+1. **Critical thinking:** Not accepting suggestions without understanding rationale
+2. **Decision ownership:** Needed to understand trade-offs to make informed choice
+3. **User perspective:** Thinking about accessibility and ease of use
+
+I didn't need to know HOW to build HTML vs. app - I needed to understand WHICH was better for my goals. This is product thinking, not just technical execution.
+
+**Key decision factors that mattered to me:**
+- Portability (works everywhere)
+- No installation (remove barriers for classmates)
+- Privacy (no accounts, no tracking)
+- Simplicity (single file, easy to share)
+
+---
+
+### Technical Discussion: HTML vs. Cloud Storage
+
+**Claude explained:**
+- HTML with localStorage = local-only, manual export/import for cross-device
+- Traditional app = could have automatic cloud sync but more complex
+
+**Me:**
+> "Can this be used on multiple devices and have access to all the files?"
+
+**Claude explained:** LocalStorage is device-specific, but export/import feature would allow manual syncing.
+
+**Me:**
+> "Let's start with the html and import/export. Make sure it will be easy to modify it for automatic cloud sync"
+
+---
+
+**📦 INTERPRETATION BOX - STRATEGIC ARCHITECTURE:**
+
+This decision demonstrated:
+
+**Prioritization:** Start simple (local storage), add complexity later (cloud sync)
+**Future-proofing:** Build architecture that can evolve without rewriting
+**User control:** Prefer user ownership of data over convenience
+**Privacy values:** Local-first approach, cloud as optional enhancement
+
+I made this decision based on:
+- My immediate needs (personal use, cross-device via export)
+- My values (privacy, simplicity)
+- Strategic thinking (don't over-build, but plan for growth)
+
+The instruction "make sure it will be easy to modify it for automatic cloud sync" showed I was thinking ahead without letting future possibilities complicate current execution.
+
+---
+
+## Part 4: Validation & Scalability
+
+### Checking for Existing Solutions
+
+**Me:**
+> "Also check to see if this type of companion already exists"
+
+Claude searched and found:
+- General checklist tools (not font-specific)
+- FontForge documentation (static, not interactive)
+- Typography resources (not about font creation)
+- No existing tool combining all these features
+
+---
+
+**📦 INTERPRETATION BOX - MARKET VALIDATION:**
+
+This question showed:
+
+**Due diligence:** Before building, check if someone already solved this
+**Validation seeking:** If it exists, learn from it; if not, there's a real gap
+**Confidence building:** Knowing this is unique validated the effort
+
+Result: No existing tool combines interactive checklists, multiple project tracking, progressive disclosure, searchability, and beginner-friendly content specifically for FontForge workflows.
+
+**This confirmed:** The problem I identified is real, and the solution I envisioned is novel.
+
+---
+
+### The Scalability Vision
+
+**Me:**
+> "Yes. I also want to see how it could scale to other free font programs, assignments in canvas, even provide the process for other types of projects"
+
+---
+
+**📦 INTERPRETATION BOX - SYSTEMS THINKING:**
+
+This was the moment the project transcended "font tool" to become "workflow companion platform."
+
+**My realization:**
+- The STRUCTURE (checklists + details + progress tracking) works for ANY multi-step process
+- Font creation is just one use case
+- This could help with Canvas assignments, design projects, any complex workflow
+- The system should be modular and template-based
+
+**What this demonstrates:**
+- **Pattern recognition:** Seeing the universal structure beneath specific content
+- **Scalability thinking:** Design for expansion from the beginning
+- **Broader impact:** Not just solving my problem, but creating infrastructure
+- **Product vision:** Thinking about platform potential, not just single tool
+
+**AuDHD superpower in action:** Pattern recognition and systems thinking are strengths. I saw the meta-pattern and envisioned how it could generalize.
+
+---
+
+### Claude's Response
+
+Claude outlined a scalability architecture:
+
+**Level 1:** Font Creation Suite (FontForge, Inkscape, BirdFont, Calligraphr)
+**Level 2:** Design Project Types (logo design, illustration, UI/UX, print design)
+**Level 3:** Academic Integration (Canvas assignments, project tracking)
+**Level 4:** Universal Project Framework (writing, coding, video, events, research)
+
+**Me:**
+> "I like your three step idea.
+> 
+> I also want to send this idea (including our conversation) and what you build to my programmer partner to get his input. How would I do that?"
+
+---
+
+**📦 INTERPRETATION BOX - COLLABORATIVE VALIDATION:**
+
+Seeking technical review showed:
+
+**Intellectual humility:** Recognizing the limits of my technical knowledge
+**Collaboration mindset:** Bringing in expertise where I lack it
+**Quality focus:** Want to build this right, not just fast
+**Learning orientation:** Open to feedback and improvement
+
+I know what I want to build and why, but I want technical validation of HOW to build it optimally.
+
+---
+
+### Comprehensive Deliverables
+
+**Me:**
+> "Create the tool. Create the dev focused project brief. Add your suggested questions to the brief. Create a process book for me to edit and modify. I will share the html file and conversation link as well."
+
+---
+
+**📦 INTERPRETATION BOX - PROJECT MANAGEMENT:**
+
+This request showed structured thinking about deliverables:
+
+1. **The Tool** - working prototype to test and demonstrate
+2. **Developer Brief** - technical documentation for expert review
+3. **Process Book** - project documentation for portfolio/academic use
+4. **Conversation Link** - complete context for transparency
+
+Each serves a different purpose:
+- Tool = proof of concept
+- Dev Brief = technical validation
+- Process Book = reflective documentation
+- Conversation = authenticity verification
+
+This is professional project delivery: multiple artifacts for multiple audiences.
+
+---
+
+## Part 5: Transparency and Integrity
+
+### The Clarity Request
+
+**Me:**
+> "In the process book I want to be very clear that I used Claude ai to brainstorm, answer questions, compile information, create the html file, and whatever else Claude ai did. My portion included the ideation, asking for the help, developing the tool into a framework that could work in many settings, etc. I have the ideas, just not the technical expertise. Also this type of back and forth is perfect for my AuDHD."
+
+---
+
+**📦 INTERPRETATION BOX - ACADEMIC INTEGRITY & SELF-AWARENESS:**
+
+This statement demonstrated:
+
+**Transparency:** Proactive honesty about AI collaboration (not asked, volunteered)
+**Attribution:** Clear delineation of contributions (mine vs. Claude's)
+**Self-awareness:** Understanding my strengths (ideas) and gaps (technical execution)
+**Accommodation recognition:** Explicit acknowledgment that this process works for my neurodivergence
+
+**What I claimed credit for:**
+- Ideation and creative vision
+- Problem identification
+- Framework development and scalability thinking
+- Asking the right questions and providing direction
+
+**What I attributed to Claude:**
+- Brainstorming partner (responsive to my ideas)
+- Answering technical questions
+- Information compilation
+- HTML/CSS/JavaScript code writing
+
+**The AuDHD connection:** Explicitly naming that "this type of back and forth is perfect for my AuDHD" showed:
+- Understanding of my own needs
+- Recognition that different working styles are valid
+- Pride in finding accommodation that works
+- Advocacy for neurodivergent-friendly processes
+
+**This makes the project STRONGER, not weaker:** Shows self-knowledge, strategic tool use, and modern collaboration skills.
+
+---
+
+### The Authenticity Request
+
+**Me:**
+> "could you do another version of the process book with using the actual text we exchanged, not your interpretation of it"
+
+---
+
+**📦 INTERPRETATION BOX - DOCUMENTATION RIGOR:**
+
+This follow-up showed:
+
+**Preference for primary sources:** Actual conversation over summary
+**Verification mindset:** Want documentation that can be cross-checked
+**Authenticity value:** Raw dialogue more honest than polished narrative
+**Academic standards:** Understanding that verbatim quotes are stronger evidence
+
+The request for "actual text we exchanged" demonstrated understanding that:
+- Interpretations can introduce bias
+- Direct quotes are more credible
+- Process books should document reality, not idealized versions
+- Transparency requires showing the messy, real conversation
+
+---
+
+## What This Process Demonstrates
+
+### My Core Contributions
+
+**Problem Solving:**
+- Identified a real, personal pain point
+- Recognized it as a broader issue affecting others
+- Envisioned a solution that didn't exist
+
+**Creative Vision:**
+- Progressive disclosure UI concept
+- Interactive checklist with embedded education
+- Multi-project management system
+- Template-based scalability architecture
+
+**Strategic Thinking:**
+- HTML over app (prioritized accessibility and simplicity)
+- Local-first with cloud-ready architecture (privacy + future growth)
+- Modular design for easy expansion (FontForge → Canvas → universal)
+- Market validation before building (checked for existing solutions)
+
+**Product Sense:**
+- Designed for my actual workflow, not theoretical ideal
+- Prioritized features (must-have vs. nice-to-have)
+- Planned for multiple audiences (students, designers, educators)
+- Thought about distribution and sharing
+
+**Communication:**
+- Clearly articulated requirements to technical partner (Claude)
+- Asked clarifying questions when confused
+- Provided actionable feedback for iteration
+- Sought expert review from programmer partner
+
+**Integrity:**
+- Proactively insisted on transparent attribution
+- Requested verbatim documentation for authenticity
+- Distinguished my contributions from AI's
+- Advocated for AI collaboration as legitimate methodology
+
+### Claude's Core Contributions
+
+**Technical Education:**
+- Explained FontForge concepts (metrics, validation, hinting)
+- Clarified technical feasibility of ideas
+- Provided implementation options with trade-offs
+
+**Information Organization:**
+- Compiled scattered knowledge into structured checklists
+- Created comprehensive reference guides
+- Organized documentation logically and accessibly
+
+**Code Implementation:**
+- Wrote all HTML, CSS, and JavaScript
+- Built interactive features (checkboxes, expand/collapse, search)
+- Implemented data persistence (localStorage, export/import)
+- Created modular, scalable architecture
+
+**Documentation Creation:**
+- Generated developer technical brief
+- Produced process book templates
+- Compiled this hybrid documentation
+
+### The Collaboration Pattern
+
+**Iterative Dialogue:**
+1. I identify need or have idea
+2. I articulate it conversationally (often imperfectly)
+3. Claude validates feasibility and offers approaches
+4. I make decisions based on my priorities
+5. Claude implements to my specifications
+6. I test, validate, and provide feedback
+7. Repeat
+
+**This pattern shows:**
+- I drive direction and make all strategic decisions
+- Claude provides technical execution and education
+- Neither of us could have created this alone
+- Collaboration leverages both parties' strengths
+
+### Why This Works for AuDHD
+
+**Executive Function Support:**
+- Task initiation through conversation (no elaborate planning needed)
+- Working memory support (Claude remembers context)
+- Organization help (structures my scattered ideas)
+- Sustained attention (can work in short bursts)
+
+**Communication Style:**
+- Iterative refinement (think out loud, adjust as I go)
+- No judgment (safe space for "basic" questions)
+- Immediate feedback (quick validation without waiting)
+- Written record (don't have to rely on memory)
+
+**Cognitive Strengths:**
+- Pattern recognition (saw scalability potential)
+- Systems thinking (designed modular architecture)
+- Creative problem-solving (envisioned novel solution)
+- Hyperfocus when engaged (detailed feature specifications)
+
+---
+
+## Project Deliverables
+
+### 1. Interactive Workflow Companion (HTML)
+- Fully functional single-file web application
+- Multiple project type support (FontForge, Canvas assignments)
+- Interactive checklists with progress tracking
+- Collapsible sections with progressive disclosure
+- Search functionality
+- Dark/light mode toggle
+- Export/import for data portability
+- Offline-capable, no dependencies
+
+### 2. Developer Technical Brief
+- Architecture explanation and rationale
+- 18 specific questions for technical review
+- Cloud sync implementation options
+- Scalability roadmap
+- Security and privacy considerations
+- Code snippets for review
+- Technical challenges and proposed solutions
+
+### 3. Process Book (This Document)
+- Complete project documentation
+- Hybrid verbatim + interpretation format
+- Clear attribution of contributions
+- AuDHD accommodation discussion
+- Academic integrity statement
+- Authentic conversation excerpts
+
+### 4. Conversation Log
+- Full dialogue available via shared link
+- Verifiable source for all claims
+- Complete context for collaboration
+
+---
+
+## Future Development
+
+### Phase 1: Current State ✅
+- FontForge workflow template (complete)
+- Canvas assignment template (basic)
+- LocalStorage with export/import
+- Single HTML file deployment
+
+### Phase 2: Enhanced Templates (Next 1-2 Months)
+- Logo design workflow
+- Illustration project workflow
+- UX design process workflow
+- User-created custom templates
+- Template sharing/import
+
+### Phase 3: Cloud Sync (3-6 Months)
+- Optional cloud sync (keep local-first option)
+- Real-time cross-device updates
+- User authentication
+- Data encryption
+
+### Phase 4: Community Features (6-12 Months)
+- Template marketplace
+- Shared workflows
+- Collaboration tools
+- LMS integration for educators
+
+---
+
+## Reflection
+
+### What Went Well
+
+**Solving My Own Problem:**
+Building a tool I genuinely needed kept me motivated and ensured it solved real problems, not hypothetical ones.
+
+**Leveraging AI Effectively:**
+Using Claude as a technical execution partner allowed me to focus on creative vision and product thinking rather than getting stuck on implementation details.
+
+**Playing to My Strengths:**
+AuDHD gave me pattern recognition and systems thinking abilities that led to the scalability vision. The conversational development process accommodated my executive function needs.
+
+**Transparent Collaboration:**
+Proactively documenting the AI collaboration process created stronger documentation and demonstrated modern professional skills.
+
+### What I'd Do Differently
+
+**Earlier User Testing:**
+Should have shown prototypes to classmates sooner to validate assumptions and gather requirements from actual users.
+
+**Mobile-First Consideration:**
+Designed primarily for desktop (my use case) but mobile is increasingly important for students working between classes.
+
+**Version Control:**
+Should have used Git from the beginning to track changes and create better documentation of evolution.
+
+### Skills Demonstrated
+
+**Design Thinking:**
+- User-centered problem identification
+- Creative solution envisioning
+- Information architecture
+- Progressive disclosure UX patterns
+
+**Product Management:**
+- Requirements gathering and prioritization
+- Feature scoping (MVP vs. future)
+- Market validation
+- Scalability planning
+
+**Technical Communication:**
+- Translating needs into specifications
+- Asking clarifying questions
+- Providing actionable feedback
+- Collaborating with technical partners
+
+**Systems Thinking:**
+- Recognizing universal patterns in specific problems
+- Designing modular, scalable architecture
+- Planning for future without over-engineering present
+
+**Project Documentation:**
+- Creating multiple artifacts for different audiences
+- Maintaining intellectual honesty and attribution
+- Producing comprehensive project records
+
+---
+
+## Academic Integrity Statement
+
+**This project is a collaboration between a human (me) and an AI (Claude).**
+
+**I take full credit for:**
+- Identifying the problem and envisioning the solution
+- All creative and strategic decisions
+- Product vision and feature ideation
+- Requirements specification and prioritization
+- Testing, validation, and quality control
+- This documentation and reflection
+
+**Claude receives credit for:**
+- Technical explanation and education
+- Code implementation (HTML, CSS, JavaScript)
+- Information compilation and organization
+- Documentation formatting and structure
+
+**Why this matters:**
+In modern product development, the ability to identify problems, envision solutions, communicate requirements, and collaborate with technical resources is MORE valuable than coding ability alone. This project demonstrates all those skills.
+
+**This is not "cheating" - it's modern collaboration:**
+Just as designers work with developers, architects work with engineers, and directors work with cinematographers, I worked with an AI tool to execute my vision. The vision, direction, and decisions are mine.
+
+---
+
+## Conclusion
+
+This project started as a simple question about creating a font and evolved into a scalable workflow management platform. Through iterative dialogue with Claude AI, I:
+
+- Identified a real problem affecting design students
+- Envisioned an interactive solution that didn't exist
+- Made strategic technical decisions about architecture
+- Designed for accessibility, privacy, and scalability
+- Created comprehensive documentation for validation
+- Maintained intellectual honesty throughout
+
+The result is a tool I'm genuinely proud of - not because I wrote the code myself, but because I identified a problem worth solving, envisioned a creative solution, communicated requirements effectively, made thoughtful decisions, and produced something that could help others.
+
+**This is what design thinking looks like in the age of AI collaboration.**
+
+---
+
+**Project Files:**
+- Interactive Tool: [HTML file]
+- Developer Brief: [Markdown file]
+- Conversation Log: [Shared link]
+- Process Book: This document
+
+**Contact:** [YOUR EMAIL]  
+**Last Updated:** January 5, 2026
