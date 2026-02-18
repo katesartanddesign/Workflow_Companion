@@ -21,7 +21,7 @@ Searchable content for quick information access
 Offline-first - works without internet, no data collection
 Multi-project support with export/import for cross-device work
 🚀 Try It Now
-Live Demo: https://katesartanddesign.github.io/workflow-companion/
+Live Demo: https://katesartanddesign.github.io/workflow_companion/
 
 No installation needed - just open in your browser!
 
