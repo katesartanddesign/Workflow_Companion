@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflow Companion - Interactive Worksheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        // Close modal on outside click
+        document.addEventListener('click', (e) => {
+            const modal = document.getElementById('newProjectModal');
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                // Could add search functionality here
+            }
+            if (e.key === 'Escape') {
+                closeModal();
+                closeMobileMenu();
+            }
+        });
+    </script>
+</body>
+</html>
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --accent: #0d6efd;
+            --accent-hover: #0b5ed7;
+            --success: #198754;
+            --border: #dee2e6;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode {
+            --bg-primary: #1a1d23;
+            --bg-secondary: #252a31;
+            --bg-tertiary: #2f353e;
+            --text-primary: #f8f9fa;
+            --text-secondary: #adb5bd;
+            --border: #495057;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-header h1 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .project-selector {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            background: var(--accent);
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        /* Master Checklist */
+        .master-checklist {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .master-checklist h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .master-item {
+            padding: 12px;
+            margin: 6px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .master-item:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .master-item.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .master-item-title {
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .master-item-progress {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .master-item.active .master-item-progress {
+            opacity: 1;
+        }
+
+        .progress-bar-mini {
+            height: 4px;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        .master-item.active .progress-bar-mini {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .progress-bar-mini-fill {
+            height: 100%;
+            background: var(--success);
+            transition: width 0.3s;
+        }
+
+        .master-item.active .progress-bar-mini-fill {
+            background: white;
+        }
+
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 32px;
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .overall-progress {
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 32px;
+        }
+
+        .overall-progress h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            opacity: 0.9;
+        }
+
+        .progress-bar-container {
+            background: rgba(255, 255, 255, 0.2);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: white;
+            height: 100%;
+            transition: width 0.3s;
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            margin-top: 8px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Task List */
+        .task-list {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .task-item {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin: 12px 0;
+        }
+
+        .task-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: var(--success);
+            flex-shrink: 0;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-title {
+            font-weight: 500;
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .task-details {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .task-notes {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+        }
+
+        .task-notes:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .task-notes::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        .task-item.completed .task-title {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-primary);
+            padding: 32px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px var(--shadow);
+        }
+
+        .modal-content h3 {
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .modal-content input,
+        .modal-content select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        /* Print styles */
+        @media print {
+            .sidebar, .btn-group, .theme-toggle {
+                display: none !important;
+            }
+            .main-content {
+                padding: 20px;
+            }
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 1001;
+            width: 44px;
+            height: 44px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+        }
+
+        .mobile-overlay.active {
+            display: block;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: -320px;
+                z-index: 100;
+                height: 100vh;
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.mobile-open {
+                transform: translateX(320px);
+            }
+
+            .main-content {
+                padding: 72px 16px 16px 16px;
+            }
+
+            .section-header h2 {
+                font-size: 24px;
+            }
+
+            .task-notes {
+                font-size: 16px;
+                min-height: 100px;
+            }
+
+            .checkbox {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+    
+    <!-- Mobile Overlay -->
+    <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+
+    <div class="app-container">
+        <!-- Sidebar with Master Checklist -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>Workflow Companion</h1>
+                <select class="project-selector" id="projectSelector">
+                    <option value="">Select a project...</option>
+                </select>
+                <div class="btn-group">
+                    <button class="btn" onclick="newProject()">+ New</button>
+                    <button class="btn btn-secondary" onclick="deleteProject()">Delete</button>
+                </div>
+                <div class="btn-group" style="margin-top: 8px;">
+                    <button class="btn btn-secondary" onclick="exportData()">Export</button>
+                    <button class="btn btn-secondary" onclick="importData()">Import</button>
+                </div>
+            </div>
+
+            <div class="master-checklist" id="masterChecklist">
+                <!-- Master checklist will be populated by JS -->
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="theme-toggle" onclick="toggleTheme()">
+                    <span>🌙 Dark Mode</span>
+                    <span id="themeIcon">OFF</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <div class="content-wrapper" id="mainContent">
+                <!-- Content will be populated by JS -->
+            </div>
+        </main>
+    </div>
+
+    <!-- New Project Modal -->
+    <div class="modal" id="newProjectModal">
+        <div class="modal-content">
+            <h3>Create New Project</h3>
+            <input type="text" id="projectNameInput" placeholder="Project name...">
+            <select id="projectTypeSelect">
+                <option value="fontforge">FontForge Font Creation</option>
+                <option value="canvas">Canvas Assignment</option>
+            </select>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn" onclick="createProject()">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="importFileInput" style="display: none;" accept=".json">
+
+    <script>
+        // ========================================
+        // DATA TEMPLATES
+        // ========================================
+        const workflowTemplates = {
+            fontforge: {
+                name: 'FontForge Font Creation',
+                sections: [
+                    {
+                        id: 'illustrator',
+                        title: 'Illustrator Setup',
+                        tasks: [
+                            { id: 'outline', title: 'Create outlined letterforms', details: 'Make sure your letters are vector shapes, not editable text. Go to Type > Create Outlines.' },
+                            { id: 'expand', title: 'Expand any strokes', details: 'Select all letters and go to Object > Expand Appearance. This converts strokes to filled shapes.' },
+                            { id: 'artboards', title: 'Set up individual artboards', details: 'Create one artboard per letter. Use the Artboards panel to add new artboards of equal size.' },
+                            { id: 'name', title: 'Name artboards clearly', details: 'Rename each artboard to match the letter. These names become your SVG filenames.' },
+                            { id: 'baseline', title: 'Align letters to baseline', details: 'All letters should sit on the same baseline. Create a guide and align the bottom of all letters.' },
+                            { id: 'export', title: 'Batch export as SVG', details: 'File > Export > Export for Screens. Choose SVG format, select all artboards, and export.' }
+                        ]
+                    },
+                    {
+                        id: 'fontforge',
+                        title: 'FontForge Import',
+                        tasks: [
+                            { id: 'new', title: 'Create new font', details: 'Launch FontForge and go to File > New. You\'ll see a grid of empty character slots.' },
+                            { id: 'upper', title: 'Import uppercase (A-Z)', details: 'Double-click the "A" slot, File > Import, select A.svg. Repeat for B through Z.' },
+                            { id: 'lower', title: 'Import lowercase (a-z)', details: 'Scroll down to lowercase slots. Import each letter from a through z.' },
+                            { id: 'numbers', title: 'Import numbers (0-9)', details: 'Find the number slots and import your number designs.' },
+                            { id: 'punctuation', title: 'Import punctuation', details: 'Import essential punctuation: period, comma, exclamation, question, quotes, hyphen, parentheses.' }
+                        ]
+                    },
+                    {
+                        id: 'sizing',
+                        title: 'Size & Alignment',
+                        tasks: [
+                            { id: 'guidelines', title: 'Understand the guidelines', details: 'FontForge shows horizontal lines: Ascent, Cap Height, X-Height, Baseline, and Descent.' },
+                            { id: 'reference', title: 'Choose reference letters', details: 'Pick your best uppercase (like "H") and lowercase (like "n") as size references.' },
+                            { id: 'scale', title: 'Scale letters to match', details: 'Use Element > Transformations > Transform to scale letters. Try 80-120%. Check "Scale Uniformly".' },
+                            { id: 'reposition', title: 'Reposition to baseline', details: 'After scaling, use Transform > Move with Y values to align letters to the baseline.' },
+                            { id: 'test', title: 'Test in Metrics Window', details: 'Metrics > New Metrics Window. Type test words to see letters side-by-side and check consistency.' }
+                        ]
+                    },
+                    {
+                        id: 'spacing',
+                        title: 'Letter Spacing',
+                        tasks: [
+                            { id: 'bearings', title: 'Set side bearings', details: 'The pink/red vertical lines are side bearings. Drag them or use Metrics > Set Width to adjust.' },
+                            { id: 'pairs', title: 'Test common letter pairs', details: 'In Metrics Window, type pairs that often have spacing issues: AV, To, Wa, etc.' },
+                            { id: 'words', title: 'Check word spacing', details: 'Type full words and sentences to see how spacing feels in context.' }
+                        ]
+                    },
+                    {
+                        id: 'validation',
+                        title: 'Validation & Testing',
+                        tasks: [
+                            { id: 'run', title: 'Run validation', details: 'Element > Validation > Validate. Most warnings are safe to ignore for personal fonts.' },
+                            { id: 'fix', title: 'Fix critical errors', details: 'Focus on: Unclosed Paths (Close Path), Wrong Direction (Correct Direction), Self-Intersecting Paths (Remove Overlap).' },
+                            { id: 'info', title: 'Set font information', details: 'Element > Font Info. Under PS Names, enter your Fontname and Family Name.' }
+                        ]
+                    },
+                    {
+                        id: 'generate',
+                        title: 'Generate Font',
+                        tasks: [
+                            { id: 'gen', title: 'Generate the font', details: 'File > Generate Fonts. Choose TrueType (.ttf) or OpenType (.otf). Save and click Generate.' },
+                            { id: 'install', title: 'Install on your system', details: 'Mac: Double-click font file and click Install Font. Windows: Right-click and select Install.' },
+                            { id: 'testapp', title: 'Test in real applications', details: 'Open a text editor or design program. Find your font in the font menu and type with it.' },
+                            { id: 'iterate', title: 'Iterate and refine', details: 'Note any issues, reopen your .sfd file, make adjustments, and regenerate. Font design is iterative!' }
+                        ]
+                    }
+                ]
+            },
+            canvas: {
+                name: 'Canvas Assignment',
+                sections: [
+                    {
+                        id: 'planning',
+                        title: 'Planning Phase',
+                        tasks: [
+                            { id: 'read', title: 'Read assignment brief', details: 'Read entire description. Note due dates, deliverables, and special requirements.' },
+                            { id: 'requirements', title: 'Identify key requirements', details: 'List what you need to deliver. Check word counts, formats, and submission methods.' },
+                            { id: 'rubric', title: 'Check the rubric', details: 'Look at how you\'ll be graded. Note which criteria have the most weight.' },
+                            { id: 'subtasks', title: 'Break into subtasks', details: 'Divide the assignment into smaller tasks. Estimate time for each.' },
+                            { id: 'deadlines', title: 'Set personal deadlines', details: 'Work backwards from due date. Set milestones with buffer time.' }
+                        ]
+                    },
+                    {
+                        id: 'execution',
+                        title: 'Execution Phase',
+                        tasks: [
+                            { id: 'resources', title: 'Gather resources', details: 'Collect needed materials: readings, reference images, software, templates.' },
+                            { id: 'work', title: 'Complete the work', details: 'Follow your plan and work through each subtask. Take breaks. Save frequently.' },
+                            { id: 'document', title: 'Document your process', details: 'If required, capture screenshots, save iterations, or keep notes about your decisions.' }
+                        ]
+                    },
+                    {
+                        id: 'review',
+                        title: 'Review & Submission',
+                        tasks: [
+                            { id: 'check', title: 'Self-check against rubric', details: 'Go through each rubric criterion. Does your work meet or exceed expectations?' },
+                            { id: 'files', title: 'Check file requirements', details: 'Verify: correct format, proper naming, file size limits, all required files included.' },
+                            { id: 'proofread', title: 'Proofread everything', details: 'Check spelling, grammar, image quality, and formatting.' },
+                            { id: 'submit', title: 'Submit to Canvas', details: 'Upload through the correct assignment link. Verify upload succeeded.' },
+                            { id: 'backup', title: 'Backup your work', details: 'Keep copies of everything you submitted. Save to cloud and local backup.' }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // ========================================
+        // APPLICATION
+        // ========================================
+        class App {
+            constructor() {
+                this.data = this.getData();
+                this.currentSection = null;
+                this.init();
+            }
+
+            init() {
+                this.applyTheme();
+                this.populateProjects();
+                this.renderMasterChecklist();
+                this.renderContent();
+                this.attachEventListeners();
+
+                if (this.data.currentProjectId) {
+                    document.getElementById('projectSelector').value = this.data.currentProjectId;
+                    this.loadProject(this.data.currentProjectId);
+                }
+            }
+
+            attachEventListeners() {
+                document.getElementById('projectSelector').addEventListener('change', (e) => {
+                    if (e.target.value) {
+                        this.loadProject(e.target.value);
+                    }
+                });
+
+                document.getElementById('importFileInput').addEventListener('change', (e) => {
+                    if (e.target.files[0]) {
+                        this.handleImport(e.target.files[0]);
+                    }
+                });
+            }
+
+            getData() {
+                const data = localStorage.getItem('workflowCompanion');
+                return data ? JSON.parse(data) : {
+                    projects: [],
+                    currentProjectId: null,
+                    theme: 'light',
+                    version: '2.0.0'
+                };
+            }
+
+            saveData() {
+                localStorage.setItem('workflowCompanion', JSON.stringify(this.data));
+            }
+
+            getProject(id) {
+                return this.data.projects.find(p => p.id === id);
+            }
+
+            getCurrentProject() {
+                if (!this.data.currentProjectId) return null;
+                return this.getProject(this.data.currentProjectId);
+            }
+
+            createNewProject(name, type) {
+                const template = workflowTemplates[type];
+                const project = {
+                    id: Date.now().toString(),
+                    name: name,
+                    type: type,
+                    created: new Date().toISOString(),
+                    template: template,
+                    progress: {},
+                    notes: {}
+                };
+
+                // Initialize progress
+                template.sections.forEach(section => {
+                    section.tasks.forEach(task => {
+                        const key = `${section.id}-${task.id}`;
+                        project.progress[key] = false;
+                        project.notes[key] = '';
+                    });
+                });
+
+                this.data.projects.push(project);
+                this.data.currentProjectId = project.id;
+                this.saveData();
+                this.populateProjects();
+                this.loadProject(project.id);
+            }
+
+            deleteCurrentProject() {
+                if (!this.data.currentProjectId) return;
+
+                if (confirm('Delete this project? This cannot be undone.')) {
+                    this.data.projects = this.data.projects.filter(p => p.id !== this.data.currentProjectId);
+                    this.data.currentProjectId = null;
+                    this.saveData();
+                    this.populateProjects();
+                    this.renderMasterChecklist();
+                    this.renderContent();
+                }
+            }
+
+            loadProject(id) {
+                this.data.currentProjectId = id;
+                const project = this.getCurrentProject();
+                if (project && project.template.sections.length > 0) {
+                    this.currentSection = project.template.sections[0].id;
+                }
+                this.saveData();
+                this.renderMasterChecklist();
+                this.renderContent();
+            }
+
+            populateProjects() {
+                const selector = document.getElementById('projectSelector');
+                selector.innerHTML = '<option value="">Select a project...</option>';
+
+                this.data.projects.forEach(project => {
+                    const option = document.createElement('option');
+                    option.value = project.id;
+                    option.textContent = `${project.name} (${project.template.name})`;
+                    selector.appendChild(option);
+                });
+
+                if (this.data.currentProjectId) {
+                    selector.value = this.data.currentProjectId;
+                }
+            }
+
+            calculateSectionProgress(project, section) {
+                if (!section.tasks) return 0;
+
+                let completed = 0;
+                section.tasks.forEach(task => {
+                    const key = `${section.id}-${task.id}`;
+                    if (project.progress[key]) completed++;
+                });
+
+                return Math.round((completed / section.tasks.length) * 100);
+            }
+
+            calculateOverallProgress(project) {
+                if (!project) return 0;
+
+                let totalTasks = 0;
+                let completedTasks = 0;
+
+                project.template.sections.forEach(section => {
+                    section.tasks.forEach(task => {
+                        totalTasks++;
+                        const key = `${section.id}-${task.id}`;
+                        if (project.progress[key]) completedTasks++;
+                    });
+                });
+
+                return totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+            }
+
+            renderMasterChecklist() {
+                const project = this.getCurrentProject();
+                const container = document.getElementById('masterChecklist');
+
+                if (!project) {
+                    container.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-secondary);">Create or select a project</div>';
+                    return;
+                }
+
+                let html = '<h3>Master Checklist</h3>';
+
+                project.template.sections.forEach(section => {
+                    const progress = this.calculateSectionProgress(project, section);
+                    const total = section.tasks.length;
+                    const completed = section.tasks.filter(task => project.progress[`${section.id}-${task.id}`]).length;
+                    const isActive = this.currentSection === section.id;
+
+                    html += `
+                        <div class="master-item ${isActive ? 'active' : ''}" onclick="app.navigateToSection('${section.id}')">
+                            <div class="master-item-title">${section.title}</div>
+                            <div class="master-item-progress">${completed}/${total} completed</div>
+                            <div class="progress-bar-mini">
+                                <div class="progress-bar-mini-fill" style="width: ${progress}%"></div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+            }
+
+            navigateToSection(sectionId) {
+                this.currentSection = sectionId;
+                this.renderMasterChecklist();
+                this.renderContent();
+            }
+
+            renderContent() {
+                const project = this.getCurrentProject();
+                const wrapper = document.getElementById('mainContent');
+
+                if (!project) {
+                    wrapper.innerHTML = `
+                        <div class="empty-state">
+                            <h3>Welcome to Workflow Companion</h3>
+                            <p>Create or select a project to get started</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const section = project.template.sections.find(s => s.id === this.currentSection);
+                if (!section) return;
+
+                const overallProgress = this.calculateOverallProgress(project);
+
+                let html = `
+                    <div class="overall-progress">
+                        <h3>${project.name}</h3>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: ${overallProgress}%"></div>
+                        </div>
+                        <div class="progress-text">${overallProgress}% Complete</div>
+                    </div>
+
+                    <div class="section-header">
+                        <h2>${section.title}</h2>
+                        <p>Check off tasks as you complete them and add your notes</p>
+                    </div>
+
+                    <div class="task-list">
+                `;
+
+                section.tasks.forEach(task => {
+                    const key = `${section.id}-${task.id}`;
+                    const isCompleted = project.progress[key] || false;
+                    const notes = project.notes[key] || '';
+
+                    html += `
+                        <div class="task-item ${isCompleted ? 'completed' : ''}">
+                            <div class="task-header">
+                                <input type="checkbox" class="checkbox" 
+                                    ${isCompleted ? 'checked' : ''}
+                                    onchange="app.toggleTask('${key}')">
+                                <div class="task-content">
+                                    <div class="task-title">${task.title}</div>
+                                    <div class="task-details">${task.details}</div>
+                                    <textarea class="task-notes" 
+                                        placeholder="Add your notes here... (What did you do? What worked? What issues did you encounter?)"
+                                        onchange="app.saveNotes('${key}', this.value)">${notes}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+                wrapper.innerHTML = html;
+            }
+
+            toggleTask(key) {
+                const project = this.getCurrentProject();
+                if (!project) return;
+
+                project.progress[key] = !project.progress[key];
+                this.saveData();
+                this.renderMasterChecklist();
+                this.renderContent();
+            }
+
+            saveNotes(key, value) {
+                const project = this.getCurrentProject();
+                if (!project) return;
+
+                project.notes[key] = value;
+                this.saveData();
+            }
+
+            applyTheme() {
+                if (this.data.theme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                    document.getElementById('themeIcon').textContent = 'ON';
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    document.getElementById('themeIcon').textContent = 'OFF';
+                }
+            }
+
+            toggleTheme() {
+                this.data.theme = this.data.theme === 'light' ? 'dark' : 'light';
+                this.saveData();
+                this.applyTheme();
+            }
+
+            exportData() {
+                const blob = new Blob([JSON.stringify(this.data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `workflow-companion-backup-${Date.now()}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+
+            async handleImport(file) {
+                try {
+                    const text = await file.text();
+                    const data = JSON.parse(text);
+                    this.data = data;
+                    this.saveData();
+                    this.init();
+                    alert('Data imported successfully!');
+                } catch (error) {
+                    alert('Error importing data. Please check the file format.');
+                    console.error(error);
+                }
+            }
+        }
+
+        // ========================================
+        // GLOBAL FUNCTIONS
+        // ========================================
+        let app;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            app = new App();
+        });
+
+        function newProject() {
+            document.getElementById('newProjectModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('newProjectModal').classList.remove('active');
+        }
+
+        function createProject() {
+            const name = document.getElementById('projectNameInput').value.trim();
+            const type = document.getElementById('projectTypeSelect').value;
+
+            if (!name) {
+                alert('Please enter a project name');
+                return;
+            }
+
+            app.createNewProject(name, type);
+            closeModal();
+            document.getElementById('projectNameInput').value = '';
+        }
+
+        function deleteProject() {
+            app.deleteCurrentProject();
+        }
+
+        function exportData() {
+            app.exportData();
+        }
+
+        function importData() {
+            document.getElementById('importFileInput').click();
+        }
+
+        function toggleTheme() {
+            app.toggleTheme();
+        }
+
+        // Mobile menu functions
+        function toggleMobileMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            sidebar.classList.toggle('mobile-open');
+            overlay.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+            sidebar.classList.remove('mobile-open');
+            overlay.classList.remove('active');
+        }
+
+        // Close mobile menu when clicking a section
+        window.originalNavigateToSection = null;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            app = new App();
+            
+            // Wrap navigateToSection to close menu on mobile
+            originalNavigateToSection = app.navigateToSection.bind(app);
+            app.navigateToSection = function(sectionId) {
+                originalNavigateToSection(sectionId);
+                if (window.innerWidth <= 768) {
+                    closeMobileMenu();
+                }
+            };
+        });
