@@ -21,7 +21,7 @@ Searchable content for quick information access
 Offline-first - works without internet, no data collection
 Multi-project support with export/import for cross-device work
 🚀 Try It Now
-Live Demo: https://YOURUSERNAME.github.io/workflow-companion/
+Live Demo: https://katesartanddesign.github.io/workflow-companion/
 
 No installation needed - just open in your browser!
 
@@ -129,10 +129,10 @@ Report any bugs or confusing interfaces
 Suggest improvements or additional workflows
 Share how it helped (or didn't help) your learning
 📬 Contact
-Creator: YOURFULLNAME
-School: YOURSCHOOLNAME
-Email: YOUREMAIL
-Project Repository: https://github.com/YOURUSERNAME/workflow-companion
+Creator: Kate Jensen 
+School: University of Colorado Denver 
+Email: katesartanddesign@gmail.com
+Project Repository: https://github.com/katesartanddesign/workflow-companion
 
 🙏 Acknowledgments
 Claude AI (Anthropic) - Technical implementation based on my specifications
