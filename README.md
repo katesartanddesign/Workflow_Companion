@@ -132,7 +132,7 @@ Share how it helped (or didn't help) your learning
 Creator: Kate Jensen 
 School: University of Colorado Denver 
 Email: katesartanddesign@gmail.com
-Project Repository: https://github.com/katesartanddesign/workflow-companion
+Project Repository: https://github.com/katesartanddesign/workflow_companion
 
 🙏 Acknowledgments
 Claude AI (Anthropic) - Technical implementation based on my specifications
